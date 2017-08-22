@@ -59,4 +59,5 @@ OTHER_FILES += \
 
 DISTFILES += \
     favicon.ico \
-    LICENSE.txt
+    LICENSE.txt \
+    README.md
