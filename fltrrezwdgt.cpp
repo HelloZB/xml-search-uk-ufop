@@ -257,7 +257,9 @@ void FltrRezWdgt::addRow2table(QStringList lrow)
 //----------------------------------------------------------------------
 void FltrRezWdgt::onSearchDone(QString timeEl, qint64 rezCount)
 {
-    ui->label->setText(tr("Пошук завершено. Затрачено часу %1. Знайдено співпадінь: %2").arg(timeEl).arg(rezCount));
+//    ui->label->setText(tr("Виконується пошук... %1").arg(QString(lFltr.join("\n")).remove(";").replace("\n", "; ").replace("\t", " - ")));
+
+    ui->label->setText(tr("Пошук завершено. %1. Затрачено часу %2. Знайдено співпадінь: %3").arg(QString(lFltr.join("\n")).remove(";").replace("\n", "; ").replace("\t", " - ")).arg(timeEl).arg(rezCount));
 }
 //----------------------------------------------------------------------
 void FltrRezWdgt::addRows2table(QVariantList lrows, int lrowsSize, int strListSize)
@@ -299,12 +301,12 @@ QList<QAction *> FltrRezWdgt::exportActions(QMenu *prnt, const bool &onlySelecte
     actHTML->setIcon(QIcon(":/katynko/svg/text-html.svg"));
     connect(actHTML, SIGNAL(triggered(bool)), this, SLOT(onExport2htmlAct()) );
 
-    QAction *actCSV = new QAction(tr("CSV"), prnt);
+    QAction *actCSV = new QAction(tr("CSV (офіс. ф-т)"), prnt);
     actCSV->setData(var);
     actCSV->setIcon(QIcon(":/katynko/svg/x-office-spreadsheet.svg"));
     connect(actCSV, SIGNAL(triggered(bool)), this, SLOT(onExport2csvAct()) );
 
-    QAction *actODF = new QAction(tr("OpenDocument Format"), prnt);
+    QAction *actODF = new QAction(tr("OpenDocument Format (таблиця)"), prnt);
     actODF->setData(var);
     actODF->setIcon(QIcon(":/katynko/svg/x-office-document.svg"));
     connect(actODF, SIGNAL(triggered(bool)), this, SLOT(onExport2odfAct()) );
@@ -370,7 +372,7 @@ void FltrRezWdgt::on_tableView_customContextMenuRequested(const QPoint &pos)
     bool hasSelItems = (selRowCount > 0 );
 
     if(true){
-        QAction *a = new QAction(tr("Reset sorting"), menu);
+        QAction *a = new QAction(tr("Скинути сортування"), menu);
         a->setIcon(QIcon(":/katynko/svg/view-refresh.svg"));
         connect(a, SIGNAL(triggered(bool)), this, SLOT(onResetSortingAct()) );
         menu->addAction(a);
@@ -386,13 +388,13 @@ void FltrRezWdgt::on_tableView_customContextMenuRequested(const QPoint &pos)
              fn.chop(4);
         QString defFileName = "результат пошуку " +  fn;
 
-        QMenu *menuExpAll = new QMenu(tr("Export all to"), menu);
+        QMenu *menuExpAll = new QMenu(tr("Експортувати до"), menu);
         menuExpAll->setIcon(QIcon(":/katynko/svg/document-save.svg"));
         menuExpAll->addActions(exportActions(menu, false, defFileName));
         menuExpAll->setEnabled(hasItems);
         menu->addMenu(menuExpAll);
 
-        QMenu *expSelected = new QMenu(tr("Export selected to"), menu);
+        QMenu *expSelected = new QMenu(tr("Експортувати виділено до"), menu);
         expSelected->addActions(exportActions(menu, true, defFileName));
         expSelected->setEnabled(hasSelItems);
         menu->addMenu(expSelected);
@@ -585,7 +587,7 @@ void FltrRezWdgt::onCopySelectedRows()
 //----------------------------------------------------------------------
 QAction *FltrRezWdgt::actCopySelectedRowAsTxt(QMenu *prnt, const bool &hasProxy, const int &selCount, const int dataType)
 {
-    QAction *act = new QAction( QString("%1 (%2)").arg(tr("Copy selected as plain text")).arg(selCount), prnt);
+    QAction *act = new QAction( QString("%1 (%2)").arg(tr("Скопіювати виділене як звичайний текст")).arg(selCount), prnt);
     act->setIcon(QIcon(":/katynko/svg/edit-copy.svg"));
     if(dataType < 0)
         act->setData( hasProxy);
